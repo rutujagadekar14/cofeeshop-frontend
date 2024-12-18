@@ -63,18 +63,21 @@ function Login() {
         e.preventDefault();                                // This method is called on the event object to prevent the default behavior of the form submission.
         const errors = validate(formValues);               //This line calls a function named validate with formValues as an argument.
         setFormError(errors);                              // sets the errors in errors object.
-        
+
         if (Object.keys(errors).length === 0) {            //This conditional statement checks if the errors object is empty (i.e., no validation errors). If there are no errors, the code inside the block will execute.
             axios.post("http://localhost:3000/login", formValues)
                 .then(result => {
                     console.log(result);
+                    sessionStorage.setItem('token', result.data.token);
                     navigate("/");
+
                 })
                 .catch(err => {
                     console.log(err);
                     setIsLoginSuccessful(false);
                 })
         }
+
     }
 
     const handleSignupClick = () => {
